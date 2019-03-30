@@ -10,7 +10,7 @@ const common_mark = require('commonmark');
     let wrap_header_path = process.argv[4] ? path.join(__dirname, process.argv[4]) : false;
     let wrap_footer_path = process.argv[5] ? path.join(__dirname, process.argv[5]) : false;
 
-    empty_directory(output_path);
+    delete_html_from_directory(output_path);
 
     // Get all files in dir which do not start with _
     const file_names = fs.readdirSync(input_path).filter(name => !/^_/.test(name));
@@ -76,10 +76,11 @@ const common_mark = require('commonmark');
         return old_html.slice(0, insert_start_position) + new_html + old_html.slice(insert_start_position + place_holder_size, old_html.length);
     }
 
-    function empty_directory(directory) {
+    function delete_html_from_directory(directory) {
         const file_names = fs.readdirSync(directory);
         file_names.forEach(name => {
-            fs.unlinkSync(path.join(directory, name));
+            if (/\.html$/.test(name))
+                fs.unlinkSync(path.join(directory, name));
         });
     }
 
