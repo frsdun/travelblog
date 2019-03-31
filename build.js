@@ -4,23 +4,17 @@ const common_mark = require('commonmark');
 
 (function () {
     // Get the two file paths
-    if (!process.argv[2] || !process.argv[3]) { return console.log('Error, setting input and output paths'); }
+    if (!process.argv[2] || !process.argv[3] || !process.argv[4]) { return console.log('Error, setting input and output paths'); }
     const input_path = path.join(__dirname, process.argv[2]);
     const output_path = path.join(__dirname, process.argv[3]);
-
-    // Get the optional header and footer
-    let wrap_header_path = process.argv[4] ? process.argv[4] : false;
-    let wrap_footer_path = process.argv[5] ? process.argv[5] : false;
+    const layout_path = path.join(__dirname, process.argv[4]);
 
     delete_html_from_directory(output_path);
 
-    // Get all files in dir which do not start with _
-    const file_names = fs.readdirSync(input_path).filter(name => !/^_/.test(name));
+    // Get all files in dir which do not start with _ and are either .html or .md
+    const file_names = fs.readdirSync(input_path).filter(name => !/^_/.test(name) && /\.md$|\.html$/.test(name));
 
     file_names.forEach(name => {
-        // Limit file types
-        if (!/\.md$|\.html$/.test(name)) return;
-
         // Read data out of file as a string
         let file_data = fs.readFileSync(path.join(input_path, name), { encoding: 'utf8' });
 
@@ -28,14 +22,11 @@ const common_mark = require('commonmark');
             // If its a markdown file convert it to html
             file_data = convert_md_to_html(file_data);
             name = name.replace('.md', '.html');
-
-            // Add header and footer
-            if (wrap_header_path && wrap_footer_path) {
-                file_data = add_header_and_footer(file_data, wrap_header_path, wrap_footer_path);
-            }
         }
 
-        const final_data = process_html(file_data)
+        file_data = insert_into_layout(file_data, layout_path);
+
+        const final_data = process_html(file_data);
 
         fs.writeFileSync(path.join(output_path, name), final_data, { encoding: 'utf8' });
     });
@@ -43,11 +34,9 @@ const common_mark = require('commonmark');
     console.log('Build done!')
 
 
-    function add_header_and_footer(html, headers_path, footer_path) {
-        html = '@{{"src":"' + headers_path + '"}}\n' + html;
-        html = html + '@{{"src":"' + footer_path + '"}}\n';
-
-        return html;
+    function insert_into_layout(html, layout_path) {
+        let layout_data = fs.readFileSync(layout_path, { encoding: 'utf8' });
+        return layout_data.replace('${{body}}', html);
     }
 
 
@@ -109,7 +98,7 @@ const common_mark = require('commonmark');
         const pattern = /@{{([\s\S]*?)}}/g;
         const found = [];
         while ((match = pattern.exec(html)) != null) {
-            const content = match[0].replace('@{{', '{').replace('}}', '}').replace(/\r?\n|\r/g, '');
+            const content = match[0].replace(/&quot;/g, '"').replace('@{{', '{').replace('}}', '}').replace(/\r?\n|\r/g, '');
             found.push({ 'content': JSON.parse(content), 'start_index': match.index, 'size': match[0].length })
         }
         return found;

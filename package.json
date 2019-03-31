@@ -17,6 +17,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "testz": "node testz.js first.html second/file.md",
-    "build-html": "node build.js src/pages/ docs/ _header.html _footer.html"
+    "build-html": "node build.js src/pages/ docs/ src/pages/_layout.html"
   }
 }
