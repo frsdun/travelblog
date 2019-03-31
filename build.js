@@ -6,13 +6,14 @@ const input_path = path.join(__dirname, process.argv[2]);
 const output_path = path.join(__dirname, process.argv[3]);
 const layout_path = path.join(__dirname, process.argv[4]);
 
-delete_html_from_directory(output_path);
-
 // Get all ".html" files in directory(input_path) which do not start with "_"
 const file_names = fs.readdirSync(input_path).filter(name => !/^_/.test(name) && /\.html$/.test(name));
 
 // Process each file
 file_names.forEach(name => {
+    // Delete corresponding file
+    delete_file_from_directory(name, output_path)
+
     // Read data out of file as a string
     let file_data = fs.readFileSync(path.join(input_path, name), { encoding: 'utf8' });
 
@@ -127,13 +128,10 @@ function insert_html(old_html, new_html, insert_start_position, place_holder_siz
 
 
 
-
-
-
-function delete_html_from_directory(directory) {
+function delete_file_from_directory(file_name, directory) {
     const file_names = fs.readdirSync(directory);
     file_names.forEach(name => {
-        if (/\.html$/.test(name))
+        if (file_name == name)
             fs.unlinkSync(path.join(directory, name));
     });
 }
