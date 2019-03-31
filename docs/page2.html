@@ -5,21 +5,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>@insert{{title}} | Travel blog</title>
+    <title>Page 2 | Travel blog</title>
 </head>
 
 <body>
 
     <h1>This is the header section</h1>
-    @link{{"src":"_navbar.html","navbar-name":"sally"}}
+    <nav>Here is a navbar. Its name is sally</nav>
 
     <nav>
         <ul>
-            @insert{{nav-list}}
+            <li>3</li><li>4</li>
         </ul>
     </nav>
 
-    @link{{"src":"main-content"}}
+    
+
+<h1>Here is the Page 2</h1>
+
+<p>There just as much here</p>
+
+<div class="js-insert" insert-url="test.html">Loading...</div>
+
+<a href="./index.html">Home</a>
 
     <footer>This is the footer section</footer>
 </body>

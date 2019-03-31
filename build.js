@@ -80,9 +80,14 @@ function process_inserts(html, obj_with_prop) {
     let inserts = find_tokens(html, 'insert');
     inserts.forEach(token => {
         if (!token.key) return console.log('Key not set on insert');
+        let value = '';
         if (obj_with_prop) {
-            html = insert_html(html, obj_with_prop[token.key], token.start_index, token.size);
+            value = obj_with_prop[token.key]
         }
+
+        if (!value) value = ''
+
+        html = insert_html(html, value, token.start_index, token.size);
     });
     return html;
 }
