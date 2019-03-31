@@ -12,11 +12,13 @@
   },
   "devDependencies": {
     "node-watch": "^0.6.0",
-    "commonmark": "^0.28.1"
+    "marked": "^0.6.1",
+    "http-server": "^0.11.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "testz": "node testz.js first.html second/file.md",
+    "serve": "node ./node_modules/http-server/bin/http-server docs/",
     "build-html": "node build.js src/pages/ docs/ src/pages/_layout.html"
   }
 }

@@ -1,11 +1,23 @@
-@{{"src":"_header.html", "title":"The Blog"}}
+<!DOCTYPE html>
+<html lang="en">
 
-${{body}}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>@insert{{title}} | Travel blog</title>
+</head>
 
-@{{"src":"_footer.html", "my-list":"
-<ul>
-    <li>1</li>
-    <li>2</li>
-    <li>3</li>
-</ul>
-", "my-val":"5.00"}}
+<body>
+
+    <h1>This is the header section</h1>
+    @link{{"src":"_navbar.html","navbar-name":"sally"}}
+
+    @insert{{nav-list}}
+
+    @link{{"src":"main-content"}}
+
+    <footer>This is the footer section</footer>
+</body>
+
+</html>
