@@ -3,12 +3,14 @@ const path = require('path');
 const common_mark = require('commonmark');
 
 (function () {
+    // Get the two file paths
     if (!process.argv[2] || !process.argv[3]) { return console.log('Error, setting input and output paths'); }
     const input_path = path.join(__dirname, process.argv[2]);
     const output_path = path.join(__dirname, process.argv[3]);
 
-    let wrap_header_path = process.argv[4] ? path.join(__dirname, process.argv[4]) : false;
-    let wrap_footer_path = process.argv[5] ? path.join(__dirname, process.argv[5]) : false;
+    // Get the optional header and footer
+    let wrap_header_path = process.argv[4] ? process.argv[4] : false;
+    let wrap_footer_path = process.argv[5] ? process.argv[5] : false;
 
     delete_html_from_directory(output_path);
 
@@ -28,8 +30,9 @@ const common_mark = require('commonmark');
             name = name.replace('.md', '.html');
 
             // Add header and footer
-            if (wrap_header_path) file_data = fs.readFileSync(wrap_header_path, { encoding: 'utf8' }) + file_data;
-            if (wrap_footer_path) file_data = file_data + fs.readFileSync(wrap_footer_path, { encoding: 'utf8' });
+            if (wrap_header_path && wrap_footer_path) {
+                file_data = add_header_and_footer(file_data, wrap_header_path, wrap_footer_path);
+            }
         }
 
         const final_data = process_html(file_data)
@@ -40,16 +43,40 @@ const common_mark = require('commonmark');
     console.log('Build done!')
 
 
+    function add_header_and_footer(html, headers_path, footer_path) {
+        html = '@{{"src":"' + headers_path + '"}}\n' + html;
+        html = html + '@{{"src":"' + footer_path + '"}}\n';
+
+        return html;
+    }
 
 
 
     function process_html(html) {
-        // Find any html insert points
-        const found = find_insert_points(html).reverse();
+        // Find and process any html insert points "@{{...}}"
+        const found_insert_points = find_insert_points(html).reverse();
+        //console.log(found_insert_points);
 
-        found.forEach(insert_point => {
+        found_insert_points.forEach(insert_point => {
             // Get the html to insert
-            let new_html = fs.readFileSync(path.join(input_path, insert_point.name), { encoding: 'utf8' });
+            let new_html = fs.readFileSync(path.join(input_path, insert_point.content.src), { encoding: 'utf8' });
+
+            // Find and process any data_points "${{...}}"
+            const found_data_points = find_data_points(new_html).reverse();
+            //console.log(found_data_points);
+
+            found_data_points.forEach(data_point => {
+                // Extract the data from the insert_point json using the key from the data_point
+                let data_content = insert_point.content[data_point.key];
+
+                if (!data_content) {
+                    console.log('Problem matching key(' + data_point.key + ') with data_point');
+                    data_content = '';
+                }
+
+                // Insert the new html into the old html and remove the placeholder
+                new_html = insert_html(new_html, data_content, data_point.start_index, data_point.size);
+            });
 
             // If the new html has another insert_point then process that first
             if (new_html.includes('@{{')) {
@@ -60,14 +87,30 @@ const common_mark = require('commonmark');
             html = insert_html(html, new_html, insert_point.start_index, insert_point.size);
         });
 
+        html = set_title(html);
+
         return html;
     }
 
-    function find_insert_points(html) {
-        const pattern = /(@{{.*?}})/g;
+    function set_title(html) {
+        return html;
+    }
+
+    function find_data_points(html) {
+        const pattern = /\${{([\s\S]*?)}}/g;
         const found = [];
         while ((match = pattern.exec(html)) != null) {
-            found.push({ 'name': match[0].replace('@{{', '').replace('}}', ''), 'start_index': match.index, 'size': match[0].length })
+            found.push({ 'key': match[0].replace('${{', '').replace('}}', ''), 'start_index': match.index, 'size': match[0].length })
+        }
+        return found;
+    }
+
+    function find_insert_points(html) {
+        const pattern = /@{{([\s\S]*?)}}/g;
+        const found = [];
+        while ((match = pattern.exec(html)) != null) {
+            const content = match[0].replace('@{{', '{').replace('}}', '}').replace(/\r?\n|\r/g, '');
+            found.push({ 'content': JSON.parse(content), 'start_index': match.index, 'size': match[0].length })
         }
         return found;
     }
