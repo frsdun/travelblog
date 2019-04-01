@@ -1,0 +1,17 @@
+/* transition */
+
+$transition-time: 300ms !default
+$transition-type: ease-out !default
+
+%transition-all
+    -webkit-transition: all $transition-time $transition-type
+    -moz-transition: all $transition-time $transition-type
+    -o-transition: all $transition-time $transition-type
+    transition: all $transition-time $transition-type
+
+%transition-color
+    transition-timing-function: $transition-type
+    -webkit-transition: background-color $transition-time, color $transition-time, border-color $transition-time
+    -moz-transition: background-color $transition-time, color $transition-time, border-color $transition-time
+    -o-transition: background-color $transition-time, color $transition-time, border-color $transition-time
+    transition: background-color $transition-time, color $transition-time, border-color $transition-time

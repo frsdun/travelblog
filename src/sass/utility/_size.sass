@@ -1,0 +1,33 @@
+/* utility - size */
+
+@mixin size-builder($property, $prefix)
+    .#{$prefix}-auto
+        #{$property}: auto
+    // .#{$prefix}-10
+    //     #{$property}: 10%
+    // .#{$prefix}-20
+    //     #{$property}: 20%
+    .#{$prefix}-25
+        #{$property}: 25%
+    // .#{$prefix}-30
+    //     #{$property}: 30%
+    // .#{$prefix}-40
+    //     #{$property}: 40%
+    .#{$prefix}-50
+        #{$property}: 50%
+    // .#{$prefix}-60
+    //     #{$property}: 60%
+    // .#{$prefix}-70
+    //     #{$property}: 70%
+    .#{$prefix}-75
+        #{$property}: 75%
+    // .#{$prefix}-80
+    //     #{$property}: 80%
+    // .#{$prefix}-90
+    //     #{$property}: 90%
+    .#{$prefix}-100
+        #{$property}: 100%
+
+
++size-builder(width, w)
++size-builder(height, h)

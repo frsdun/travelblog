@@ -11,14 +11,17 @@
     "url": "git+https://github.com/frsdun/travelblog.git"
   },
   "devDependencies": {
-    "node-watch": "^0.6.0",
+    "http-server": "^0.11.1",
     "marked": "^0.6.1",
-    "http-server": "^0.11.1"
+    "node-sass": "^4.11.0",
+    "nodemon": "^1.18.9",
+    "clean-css-cli": "^4.2.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "testz": "node testz.js first.html second/file.md",
     "serve": "node ./node_modules/http-server/bin/http-server docs/",
-    "build-html": "node build.js src/pages/ docs/ src/pages/_layout.html"
+    "build-html": "node build.js src/html/ docs/ src/html/_layout.html",
+    "build-sass": "node ./node_modules/node-sass/bin/node-sass --include-path sass src/sass/plinth.sass docs/css/styles.css",
+    "watch-sass": "nodemon -e scss,sass -x \"npm run build-sass && npm run minify\"",
+    "minify": "cleancss -o docs/css/styles.min.css docs/css/styles.css"
   }
 }
