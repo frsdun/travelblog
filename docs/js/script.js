@@ -19,11 +19,29 @@ function insert_html(element, url) {
             $(element).html(data);
         }
         element.removeAttribute('insert-url');
-        format_new_html(element);
     }, 'text').fail(function (err) {
         console.error(err.status + ' ' + err.statusText)
         $(element).html('Sorry, there was a problem downloading the content.');
+    }).done(function () {
+        $('img').each(function (i, element) {
+            element.addEventListener('load', function () {
+                format_gallery(element)
+            });
+        });
     });
+}
+
+function format_gallery(image) {
+    var gallery = $(image).parents('.gallery');
+    var all_complete = gallery.find('img').toArray().every(function (img) {
+        return img.complete
+    });
+    if (all_complete) {
+        gallery.children().each(function (index, element) {
+            var ratio = element.offsetWidth / element.offsetHeight;
+            $(element).css('flex', String(ratio))
+        });
+    }
 }
 
 function switch_loaded(url) {
@@ -39,13 +57,3 @@ function switch_loaded(url) {
 //         console.log('Scrolled to bottom')
 //     }
 // });
-
-function format_new_html(parent_element) {
-    // Add dictations to images in the gallery based on their alt text
-    $(parent_element).find('.gallery img').each(function (i, elem) {
-        console.log(elem)
-        //console.log($(elem).attr('alt'))
-        $(elem).after('<span>YAY</span>')
-    })
-
-}

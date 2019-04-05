@@ -840,6 +840,20 @@ table {
       margin-bottom: inherit;
       padding: 0 1.0rem; } }
 
+.gallery {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: flex-start;
+  margin-bottom: 30px; }
+  .gallery > * {
+    margin: 2px; }
+
+.gallery-vertical {
+  flex-direction: column; }
+
 /* utility - spacing */
 .p-0 {
   padding: 0; }

@@ -21,7 +21,8 @@
     "serve": "node ./node_modules/http-server/bin/http-server docs/",
     "build-html": "node build.js src/html/ docs/ src/html/_layout.html",
     "build-sass": "node ./node_modules/node-sass/bin/node-sass --include-path sass src/sass/plinth.sass docs/css/styles.css",
-    "watch-sass": "nodemon -e scss,sass -x \"npm run build-sass && npm run minify\"",
+    "watch-sass": "nodemon --watch src -e scss,sass -x \"npm run build-sass && npm run minify\"",
+    "watch-html": "nodemon --watch src -e html -x \"npm run build-html \"",
     "minify": "cleancss -o docs/css/styles.min.css docs/css/styles.css"
   }
 }
