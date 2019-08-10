@@ -8,11 +8,11 @@
   }
 
   export let links = [
-    { text: "Home", href: "." },
+    // { text: "Home", href: "." },
     { text: "2019 Namibia", href: "namibia" },
-    { text: "2018 Croatia", href: "croatia" },
-    { text: "2018 Vietnam", href: "vietnam" },
-    { text: "2016 South America", href: "south-america" }
+    { text: "2018 Croatia", href: "croatia" }
+    // { text: "2018 Vietnam", href: "vietnam" },
+    // { text: "2016 South America", href: "south-america" }
     // { text: "2015 Zanzibar", href: "zanzibar" },
     // { text: "2014 South East Asia", href: "s-e-a" }
   ];
@@ -32,6 +32,8 @@
     overflow-x: hidden;
 
     transition: width 0.3s ease;
+
+    padding: 2rem;
   }
 
   .selected {
@@ -56,9 +58,9 @@
   }
 </style>
 
-<button on:click={toggleMenu} class="toggle-btn">Menu</button>
+<button on:click={toggleMenu} class="toggle-btn">&#9776;</button>
 <nav class={showMenu ? 'show' : ''}>
-  <button on:click={toggleMenu} class="toggle-btn">Close</button>
+  <button on:click={toggleMenu} class="toggle-btn">&#10005;</button>
 
   <ul>
     {#each links as link}

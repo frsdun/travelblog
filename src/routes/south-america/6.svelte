@@ -7,7 +7,7 @@
   title="!!!"
   date={new Date(2019, 2 - 1, 11)}
   next="south-america/7"
-  previous="south-america/6">
+  previous="south-america/5">
 
   <p>
     Duncan is of the opinion that this photo can be summed up with three

@@ -10,11 +10,7 @@
   previous="namibia/day-11">
 
   <Gallery images={[{ src: 'img/namibia/namibia-176.jpg', alt: '' }]} />
-  <Gallery images={[{ src: 'img/namibia/namibia-177.jpg', alt: '' }]} />
-  <Gallery images={[{ src: 'img/namibia/namibia-178.jpg', alt: '' }]} />
-  <Gallery images={[{ src: 'img/namibia/namibia-181.jpg', alt: '' }]} />
-  <Gallery images={[{ src: 'img/namibia/namibia-184.jpg', alt: '' }]} />
-  <Gallery images={[{ src: 'img/namibia/namibia-185.jpg', alt: '' }]} />
+  <!-- <Gallery images={[{ src: 'img/namibia/namibia-177.jpg', alt: '' }]} /> -->
 
   <p>
     Once again a quick pack-up of camp after breakfast, and we were on the road
@@ -22,6 +18,9 @@
     mountains. The scenery gradually became greener as we drove, and we saw
     fewer tourists on the way.
   </p>
+  <Gallery images={[{ src: 'img/namibia/namibia-178.jpg', alt: '' }]} />
+  <Gallery
+    images={[{ src: 'img/namibia/namibia-184.jpg', alt: '' }, { src: 'img/namibia/namibia-181.jpg', alt: '' }]} />
   <p>
     Our campsite was situated on a farm, and we had the whole place to
     ourselves. We did some very hot midday exploring, before retreating into the
@@ -30,5 +29,6 @@
     accompanied by zebra and baboons as we zigzagged our way up the path, and we
     were treated to an amazing view as the sun was setting from the top.
   </p>
+  <Gallery images={[{ src: 'img/namibia/namibia-185.jpg', alt: '' }]} />
 
 </BlogPost>

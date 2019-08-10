@@ -42,9 +42,6 @@
     <a href="namibia/day-12">Day 12: Brandberg to Erongo</a>
   </li>
   <li>
-    <a href="namibia/day-13">Day 13: Erongo to Windhoek</a>
-  </li>
-  <li>
-    <a href="namibia/day-14">Day 14: Windhoek to home</a>
+    <a href="namibia/day-13">Day 13: Erongo to Windhoek and Home</a>
   </li>
 </ul>
