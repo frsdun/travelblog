@@ -6,6 +6,7 @@
     "serve": "sapper dev",
     "build": "sapper build --legacy",
     "export": "sapper export",
+    "export-docs": "sapper export --basepath travelblog",
     "start": "node __sapper__/build",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
